@@ -1,6 +1,5 @@
 from django.core.management.base import BaseCommand
-
-from server.apps.user.models import User
+from django.contrib.auth.models import User
 from server.settings.components import config
 
 
@@ -11,28 +10,34 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         """End point."""
-        login = config('DJANGO_DEFAULT_ADMIN_LOGIN', None)
-        password = config('DJANGO_DEFAULT_ADMIN_PASSWORD', None)
-        if password is not None or login is not None:
-            self.create_super_user(login, password)
+        username = config('DJANGO_DEFAULT_ADMIN_LOGIN', 'Admin')
+        email = config('DJANGO_DEFAULT_ADMIN_EMAIL', 'Admin@example.com')
+        password = config('DJANGO_DEFAULT_ADMIN_PASSWORD', 'nimda2018')
+        if password and username and email:
+            self.create_super_user(username, password, email)
 
-    def create_super_user(self, login, password):
+    def create_super_user(self, username, password, email):
         """Создание пользователя."""
-        if User.objects.filter(login=login).first():
+        if User.objects.filter(username=username).first():
+            self.stdout.write(
+                self.style.NOTICE(
+                    'Already exists user with is "{0}" login'.format(username),
+                ),
+            )
             return
         User.objects.create_superuser(
-            login=login, password=password, status=True,
+            email=email, username=username, password=password,
         )
 
         self.stdout.write(
             self.style.SUCCESS(
-                'Successfully created superuser "{0}"'.format(User.login),
+                'Successfully created superuser "{0}"'.format(User.username),
             ),
         )
         self.stdout.write(
             self.style.SUCCESS(
-                'Login: {login}\nPassword: {password}'.format(
-                    login=login, password=password,
+                'Email: {email}\nLogin: {login}\nPassword: {password}'.format(
+                    email=username, username=username, password=password,
                 ),
             ),
         )

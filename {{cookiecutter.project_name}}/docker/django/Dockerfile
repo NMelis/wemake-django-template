@@ -46,7 +46,7 @@ COPY ./docker/django/entrypoint.sh /docker-entrypoint.sh
 # Project initialization:
 
 RUN chmod +x "/docker-entrypoint.sh" \
-  && pip install pipenv \
+  && pip install "pipenv<2018.10" \
   && pipenv install $(test "$DJANGO_ENV" == production || echo "--dev") --deploy --system --ignore-pipfile
 
 ENTRYPOINT ["/sbin/tini", "--", "/docker-entrypoint.sh"]
