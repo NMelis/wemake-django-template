@@ -20,10 +20,16 @@ environ.setdefault('DJANGO_ENV', 'development')
 ENV = environ['DJANGO_ENV']
 
 base_settings = [
+    'components/apps.py',
     'components/common.py',
+    'components/database.py',
+    'components/drf.py',
+    'components/internationalization.py',
     'components/logging.py',
-    'components/csp.py',
     'components/caches.py',
+    'components/templates.py',
+    'components/static.py',
+    'components/swagger.py',
 
     # You can even use glob:
     # 'components/*.py'

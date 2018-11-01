@@ -9,12 +9,17 @@ SECURITY WARNING: don't run with debug turned on in production!
 import logging
 from typing import List
 
-from server.settings.components.common import INSTALLED_APPS, MIDDLEWARE
+from server.settings.components.apps import INSTALLED_APPS
+from server.settings.components.common import MIDDLEWARE
 
 # Setting the development status:
 
 DEBUG = True
 
+
+ALLOWED_HOSTS = [
+    '*',
+]
 
 # Static files:
 # https://docs.djangoproject.com/en/1.11/ref/settings/#std:setting-STATICFILES_DIRS

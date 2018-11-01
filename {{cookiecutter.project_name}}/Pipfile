@@ -3,7 +3,7 @@ url = "https://pypi.python.org/simple"
 verify_ssl = true
 
 [requires]
-python_full_version = "3.6.6"
+python_full_version = "3.6"
 
 [dev-packages]
 django-debug-toolbar = "*"
@@ -50,6 +50,10 @@ django = "<2.0"
 django-split-settings = "*"
 django-axes = "*"
 django-csp = "*"
+djangorestframework = "==3.8.2"
+drf_yasg = "*"
+drf-yasg = { extras = ['validation'] }
+djangorestframework-jwt = "==1.11.0"
 "psycopg2" = "*"
 gunicorn = "*"
 python-decouple = "*"

@@ -14,35 +14,38 @@ files serving technique in development.
 from django.conf import settings
 from django.conf.urls import include, url
 from django.contrib import admin
-from django.views.generic import TemplateView
+from drf_yasg import openapi
+from drf_yasg.views import get_schema_view
+from rest_framework import permissions
 
-from server.main_app import urls as main_urls
-from server.main_app.views import index
+from server.api import urlpatterns as api_urlpatterns
+from server.settings.components import config
 
-admin.autodiscover()
-
+schema_view = get_schema_view(
+    openapi.Info(
+        title='Документация API',
+        default_version='v1',
+        description='{{ cookiecutter.project_verbose_name }}',
+        terms_of_service='https://www.google.com/policies/terms/',
+        contact=openapi.Contact(email='admin@exemple.com'),
+        license=openapi.License(name='BSD License'),
+    ),
+    validators=['flex', 'ssv'],
+    public=True,
+    url=config('SERVER_HOST', 'http://127.0.0.1:8000'),
+    permission_classes=(permissions.AllowAny,),
+)
 
 urlpatterns = [
-    # django-admin:
-    url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
-    url(r'^admin/', admin.site.urls),
+    url(r'^swagger(?P<format>\.json|\.yaml)$',
+        schema_view.without_ui(cache_timeout=0), name='schema-json'),
+    url(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0),
+        name='schema-swagger-ui'),
+    url(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0),
+        name='schema-redoc'),
+    url('admin/', admin.site.urls),
+] + api_urlpatterns
 
-    # Apps:
-    url(r'^main/', include(main_urls)),
-
-    # Text and xml static files:
-    url(r'^robots\.txt$', TemplateView.as_view(
-        template_name='txt/robots.txt',
-        content_type='text/plain',
-    )),
-    url(r'^humans\.txt$', TemplateView.as_view(
-        template_name='txt/humans.txt',
-        content_type='text/plain',
-    )),
-
-    # It is a good practice to have explicit index view:
-    url(r'^$', index, name='index'),
-]
 
 if settings.DEBUG:  # pragma: no cover
     import debug_toolbar
@@ -57,11 +60,3 @@ if settings.DEBUG:  # pragma: no cover
             'document_root': settings.MEDIA_ROOT,
         }),
     ] + urlpatterns
-
-# Customize default error views:
-# https://docs.djangoproject.com/en/1.11/topics/http/views/#customizing-error-views
-
-# handler400 = 'your_app.views.error_handler'
-# handler403 = 'your_app.views.error_handler'
-# handler404 = 'your_app.views.error_handler'
-# handler500 = 'your_app.views.error_handler'
