@@ -22,5 +22,5 @@ INSTALLED_APPS: Tuple[str, ...] = (
     'axes',
 
     # Your apps go here:
-    'server.apps.main_app',
+    'server.apps.common',
 )
