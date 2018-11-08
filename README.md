@@ -36,7 +36,7 @@ pip install cookiecutter jinja2-git
 Then, create a project itself:
 
 ```bash
-cookiecutter gh:wemake-services/wemake-django-template
+cookiecutter gh:NMelis/wemake-django-template
 ```
 
 
