@@ -48,7 +48,7 @@ COPY ./docker/django/entrypoint.sh /docker-entrypoint.sh
 RUN chmod +x "/docker-entrypoint.sh" \
   && pip install pip==18.0
   && pip install poetry \
-  && poetry config settings.virtualenvs.create false
+  && poetry config settings.virtualenvs.create false \
   && poetry install
 
 ENTRYPOINT ["/sbin/tini", "--", "/docker-entrypoint.sh"]
