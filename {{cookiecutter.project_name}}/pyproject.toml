@@ -1,11 +1,24 @@
-[[source]]
-url = "https://pypi.python.org/simple"
-verify_ssl = true
+[tool.poetry]
+name = "wemake-django-template"
+version = "0.1.0"
+description = "Bleeding edge django template focused on code quality and security."
+authors = ["Melis <melis.zhoroev@gmail.com>"]
 
-[requires]
-python_full_version = "3.6"
+[tool.poetry.dependencies]
+python = "^3.6"
+django = "*"
+django-split-settings = "*"
+djangorestframework = "==3.8.2"
+drf_yasg = "*"
+drf-yasg = { version = "*", extras = ['validation'] }
+djangorestframework-jwt = "==1.11.0"
+psycopg2 = "*"
+gunicorn = "*"
+python-decouple = "*"
+dump-env = "*"
+bcrypt = "*"
 
-[dev-packages]
+[tool.poetry.dev-dependencies]
 django-debug-toolbar = "*"
 django-querycount = "*"
 nplusone = "*"
@@ -33,30 +46,14 @@ pytest-xdist = "*"
 pytest-randomly = "*"
 pytest-deadfixtures = "*"
 pytest-picked = "*"
-pre-commit = "*"
 xenon = "*"
 radon = "*"
 mypy = "*"
 pylint = "*"
 ipython = "*"
-sphinx = "*"
-sphinx-autodoc-typehints = "*"
-sphinxcontrib-napoleon = "*"
 "doc8" = "*"
 bandit = "*"
 
-[packages]
-django = "<2.0"
-django-split-settings = "*"
-django-axes = "*"
-django-csp = "*"
-djangorestframework = "*"
-drf_yasg = "*"
-drf-yasg = {extras = ["validation"], version = "*"}
-djangorestframework-jwt = "*"
-"psycopg2" = "*"
-gunicorn = "*"
-python-decouple = "*"
-dump-env = "*"
-bcrypt = "*"
-yamllint = "*"
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
