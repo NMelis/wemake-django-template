@@ -16,6 +16,7 @@ psycopg2 = "*"
 gunicorn = "*"
 python-decouple = "*"
 dump-env = "*"
+django-axes = "^5.0"
 bcrypt = "*"
 
 [tool.poetry.dev-dependencies]
