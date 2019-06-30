@@ -9,15 +9,20 @@
 
 version: "3.6"
 services:
-  db:
-    image: "postgres:9.6.9-alpine"
-    restart: unless-stopped
-    volumes:
-      - pgdata:/var/lib/postgresql/data
+  nginx:
+    image: nginx:1.13.12
+    restart: always
+    ports:
+    - "8000:8000"
     networks:
-      - webnet
-    env_file: ./config/.env
-
+    - webnet
+    depends_on:
+    - web
+    volumes:
+    - ./media/:/var/www/media
+    - django-static:/var/www/static
+    - django-media:/var/www/django/media/
+    - ./docker/nginx/:/etc/nginx/conf.d
   web:
     <<: &web
       build:
@@ -35,12 +40,16 @@ services:
       env_file: ./config/.env
       environment:
         DJANGO_DATABASE_HOST: db
-    command: python -Wd manage.py runserver 0.0.0.0:8000
+    command: bash /code/docker/django/gunicorn.sh
 
-  # This task is an example of how to extend existing ones:
-  # some_worker:
-  #   <<: *web
-  #   command: python manage.py worker_process
+  db:
+    image: "postgres:9.6.9-alpine"
+    restart: unless-stopped
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - webnet
+    env_file: ./config/.env
 
 networks:
   webnet:

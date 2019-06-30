@@ -38,6 +38,9 @@ COPY . /code
 WORKDIR /code
 COPY poetry.lock pyproject.toml /code/
 
+RUN adduser -D "django"
+RUN chown -R django:django /code
+
 # This is a special case. We need to run this script as entry point:
 COPY ./docker/django/entrypoint.sh /docker-entrypoint.sh
 
