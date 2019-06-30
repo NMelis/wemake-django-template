@@ -46,8 +46,6 @@ PASSWORD_HASHERS = [
 
 ROOT_URLCONF = 'server.urls'
 
-WSGI_APPLICATION = 'server.wsgi.application'
-
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',

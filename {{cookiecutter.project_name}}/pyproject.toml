@@ -17,6 +17,7 @@ gunicorn = "*"
 python-decouple = "*"
 dump-env = "*"
 django-axes = "^5.0"
+django_csp = "3.5"
 bcrypt = "*"
 
 [tool.poetry.dev-dependencies]
